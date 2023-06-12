@@ -16,7 +16,7 @@ public function main() returns error? {
             msh5: {hd1: "LABADT"},
             msh6: {hd1: "MCM"},
             msh8: "SECURITY",
-            msh9: {cm_msg1: "QRY"},
+            msh9: {cm_msg1: "QRY", cm_msg2: "A19"},
             msh10: "MSG00001",
             msh11: {pt1: "P"},
             msh12: "2.3"
@@ -34,6 +34,6 @@ public function main() returns error? {
     };
 
     hl7v2:HL7Client hl7client = check new(host, port);
-    hl7v2:Message msg = check hl7client.sendMessage(qry_a19);
-    log:printInfo(string `Response : ${msg.toJsonString()}`);
+    hl7v23:ACK msg = check hl7client.sendMessage(qry_a19).ensureType(hl7v23:ACK);
+    log:printInfo(string `Response status: ${msg.msa.msa1}`);
 }
